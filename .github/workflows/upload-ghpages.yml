@@ -35,8 +35,13 @@ jobs:
         git config --global user.name "Taro Matsuzawa"
         git config --global user.email "btm@tech.email.ne.jp"
         git init .
+        echo touch .nojekyll
         touch .nojekyll
+        echo cp tile.json
         cp ../tile.json .
+        echo git add .
         git add .
+        echo git commit
         git commit --quiet -m "Deploy from Github Action"
+        echo git push --force
         git push --force --quiet "https://${{ secrets.GITHUB_TOKEN }}@$GITHUB_REPOSITORY" master:gh-pages > /dev/null 2>&1
