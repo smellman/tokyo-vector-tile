@@ -27,9 +27,10 @@ jobs:
         git config --global user.email "btm@tech.email.ne.jp"
         git init .
         touch .nojekyll
-        export REPO=$(echo $GITHUB_REPOSITORY | sed "s|$GITHUB_ACTOR/||g")
-        sed "s|zxy|https://$GITHUB_ACTOR.github.io/$REPO/zxy|g" -i tile.json
-        sed "s|./tile.json|https://$GITHUB_ACTOR.github.io/$REPO/tile.json|g" -i style.json
+        export BASE=$(echo $GITHUB_REPOSITORY | awk -F/ '{print $1}')
+        export REPO=$(echo $GITHUB_REPOSITORY | awk -F/ '{print $2}')
+        sed "s|zxy|https://$BASE.github.io/$REPO/zxy|g" -i tile.json
+        sed "s|./tile.json|https://$BASE.github.io/$REPO/tile.json|g" -i style.json
         git add .
         git commit --quiet -m "Deploy from Github Action"
         git push --force https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY master:gh-pages > /dev/null 2>&1
