@@ -15,7 +15,8 @@ jobs:
 
     - uses: whoan/docker-build-with-cache-action@v4
       with:
-        image_name: smellman/tippecanoe:latest
+        image_name: smellman/tippecanoe
+        image_tag: latest
 
     - name: extract xzy from mbtiles
       run: docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e zxy tokyo.mbtiles
