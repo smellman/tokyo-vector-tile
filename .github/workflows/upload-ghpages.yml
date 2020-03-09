@@ -29,7 +29,7 @@ jobs:
         touch .nojekyll
         export REPO=$(echo $GITHUB_REPOSITORY | sed "s|$GITHUB_ACTOR/||g")
         sed "s|zxy|https://$GITHUB_ACTOR.github.io/$REPO/zxy|g" -i tile.json
-        sed "s|./tile.json|https://$GITHUB_ACTOR.github.io/$REPO/tile.json" -i style.json
+        sed "s|./tile.json|https://$GITHUB_ACTOR.github.io/$REPO/tile.json|g" -i style.json
         git add .
         git commit --quiet -m "Deploy from Github Action"
         git push --force https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY master:gh-pages > /dev/null 2>&1
