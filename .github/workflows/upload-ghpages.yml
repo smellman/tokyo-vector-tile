@@ -26,26 +26,16 @@ jobs:
 
     - name: extract xzy
       run: |
-        mkdir working
-        docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e working/zxy tokyo.mbtiles
+        docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e zxy tokyo.mbtiles
     # Runs a set of commands using the runners shell
     - name: push to gh-pages
-      env:
-        github_repos: 
       run: |
-        cd working
+        rm -fr .git
+        rm -fr tokyo.mbtiles
         git config --global user.name "Taro Matsuzawa"
         git config --global user.email "btm@tech.email.ne.jp"
         git init .
-        echo touch .nojekyll
         touch .nojekyll
-        echo cp tile.json
-        cp ../tile.json .
-        echo git add .
         git add .
-        echo git commit
         git commit --quiet -m "Deploy from Github Action"
-        echo git push --force
-        echo $GITHUB_REPOSITORY
-        echo $GITHUB_ACTOR
         git push --force https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY master:gh-pages > /dev/null 2>&1
