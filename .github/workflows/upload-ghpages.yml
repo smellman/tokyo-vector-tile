@@ -47,4 +47,5 @@ jobs:
         git commit --quiet -m "Deploy from Github Action"
         echo git push --force
         echo $GITHUB_REPOSITORY
-        git push --force --quiet "https://${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY" master:gh-pages > /dev/null 2>&1
+        echo $GITHUB_ACTOR
+        git push --force https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY master:gh-pages > /dev/null 2>&1
