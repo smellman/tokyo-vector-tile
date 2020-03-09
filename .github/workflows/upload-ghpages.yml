@@ -32,8 +32,8 @@ jobs:
     - name: push to gh-pages
       run: |
         cd working
-        git config user.name "Taro Matsuzawa"
-        git config user.email "btm@tech.email.ne.jp"
+        git config --global user.name "Taro Matsuzawa"
+        git config --global user.email "btm@tech.email.ne.jp"
         git init .
         touch .nojekyll
         cp ../tile.json .
