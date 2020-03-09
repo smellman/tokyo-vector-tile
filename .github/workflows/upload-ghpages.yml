@@ -32,14 +32,11 @@ jobs:
     - name: push to gh-pages
       run: |
         cd working
+        git config user.name "Taro Matsuzawa"
+        git config user.email "btm@tech.email.ne.jp"
         git init .
-        git config user.name $git_name
-        git config user.email $git_email
         touch .nojekyll
         cp ../tile.json .
         git add .
         git commit --quiet -m "Deploy from Github Action"
         git push --force --quiet "https://${{ secrets.GITHUB_TOKEN }}@$GITHUB_REPOSITORY" master:gh-pages > /dev/null 2>&1
-      env:
-        git_name: Taro Matsuzawa
-        git_email: btm@tech.email.ne.jp  
