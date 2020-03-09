@@ -17,7 +17,7 @@ jobs:
       run: docker pull smellman/tippecanoe:latest
 
     - name: extract xzy from mbtiles
-      run: docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e zxy tokyo.mbtiles
+      run: docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e zxy tokyo.mbtiles --no-tile-compression --no-tile-size-limit
 
     - name: push to gh-pages
       run: |

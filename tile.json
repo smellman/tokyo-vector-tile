@@ -2,7 +2,7 @@
   "name": "OpenMapTiles",
   "id": "tokyo-vector-tile",
   "description": "A tileset showcasing all layers in OpenMapTiles. https://openmaptiles.org",
-  "version": "2",
+  "version": "3.11",
   "minzoom": 0,
   "maxzoom": 14,
   "center": [
