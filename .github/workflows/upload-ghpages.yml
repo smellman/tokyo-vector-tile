@@ -1,33 +1,25 @@
-# This is a basic workflow to help you get started with Actions
-
 name: upload-ghpages
 
-# Controls when the action will run. Triggers the workflow on push or pull request 
-# events but only for the master branch
 on:
   push:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+
   build:
-    # The type of runner that the job will run on
+
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
-    - name: Pull docker image
-      run: docker pull smellman/tippecanoe:latest
+    - uses: whoan/docker-build-with-cache-action@v4
+      with:
+        image_name: smellman/tippecanoe:latest
 
-    - name: extract xzy
-      run: |
-        docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e zxy tokyo.mbtiles
-    # Runs a set of commands using the runners shell
+    - name: extract xzy from mbtiles
+      run: docker run --rm -v $(pwd):/working -w /working smellman/tippecanoe:latest tile-join -e zxy tokyo.mbtiles
+
     - name: push to gh-pages
       run: |
         rm -fr .git
