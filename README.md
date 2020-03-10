@@ -12,46 +12,81 @@ tokyo.mbtilesを差し替えてmasterブランチにpushするとGithub Actions�
 
 ### 事前準備
 
-[openmaptiles](https://github.com/openmaptiles/openmaptiles/blob/master/README.md) のインストール
+必要なツールをインストール
 
 ```
-git clone https://github.com/openmaptiles/openmaptiles.git
-cd openmaptiles
-# Build the imposm mapping, the tm2source project and collect all SQL scripts
-make download-???
+sudo apt install bc make osmctools wget git vim
 ```
 
-[osmtools](https://gitlab.com/osm-c-tools/osmctools) のインストール
+`osmctools`が無い場合は以下の方法で`osmconvert`コマンドを取得する
 
 ```
 wget -O - http://m.m.i24.cc/osmconvert.c | cc -x c - -lz -O3 -o osmconvert
 ```
 
-### kanto データの processing
-
-`何かを実行`
-
-kanto のダウンロードが終わったあとCtrl+Cで止める
-
-osmconvertで東京のだいたい都心部が入ったPBFを作成
+[openmaptiles](https://github.com/openmaptiles/openmaptiles/blob/master/README.md) のインストールと設定
 
 ```
-osmconvert -B=Tokyo.poly -o tokyo.pbf ???
+git clone https://github.com/openmaptiles/openmaptiles.git
+cd openmaptiles
+# edit .env
+vim .env # set QUICKSTART_MAX_ZOOM=14
 ```
 
-生成されたdocker-compose-config.ymlを書き換える
+### Tokyo regionの抽出と出力範囲の調整
+
+関東領域に対して`quickstart.sh`を実行してインポートが始まったら強制終了(Ctrl-C)
 
 ```
-何を？
+# Run quickstart.sh with kanto region
+./quickstart.sh kanto
+# Stop
+<Ctrl+C>
 ```
 
-`tokyo.mbtiles` が完成する
+`osmconvert`コマンドと`Tokyo.poly`を用いて`kanto.osm.pbf`から`tokyo.osm.pbf`を抽出する
 
-`./quickstart.sh tokyo`
+```
+# create Tokyo region osm file
+cd data
+wget https://raw.githubusercontent.com/tokyo-metropolitan-gov/tokyo-vector-tile/master/Tokyo.poly
+osmconvert kanto.osm.pbf -B=Tokyo.poly -o=tokyo.osm.pbf
+```
 
+data/docker-compose-config.ymlのBBOXが関東の範囲なのでTokyo.polyに合わせてBBOXの範囲を小さくする
 
+```
+# edit docker-compose-config.yml BBOX
+vim docker-compose-config.yml # ex. BBOX: " 139.31, 35.49, 139.95, 35.86"
+```
+
+### mbtilesの作製
+
+もとのディレクトリに戻ってdocker containerを削除する(importのゴミを消すため)
+
+```
+# drop current docker container
+cd ..
+docker-compose down -v
+```
+
+必要なファイルが揃ったので、改めて`quickstart.sh`を`tokyo`オプションをつけて実行する
+
+```
+# re-run quickstart.sh with 
+./quickstart.sh tokyo
+```
+
+出力された `data/tiles.mbtiles` を `tokyo.mbtiles` として本レポジトリにアップロードする。
+
+#### 注意点
+
+- `./quickstart.sh` は引数にある範囲の`{region}.osm.pbf`があるかをチェックします。
+- `./quickstart.sh` の引数なしで実行するとアルバニアの範囲がダウンロードされてしまうので注意すること。
+- `kanto.osm.pbf`が存在してる段階で`./quickstart.sh kanto`を実行しても新しいファイルはダウンロードされないので新しく作る場合は `data` ディレクトリごと削除するのがおすすめです。
+- Ctrl+Cで強制終了しなくても`./quickstart.sh kanto`の実行が終わってから作業しても同じファイルが得られますが、かなり長い処理になるので強制終了することをおすすめします。`quickstart.sh`自体をいじって`exit(0)`を発行させるという手もありますが、修正が二度手間になるので注意。
 
 ## 範囲
 
-Tokyo.poly を参照。
+[tokyo.geojson](tokyo.geojson) または [Tokyo.poly](Tokyo.poly) を参照。
 
