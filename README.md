@@ -18,8 +18,7 @@ tokyo.mbtilesを差し替えてmasterブランチにpushするとGithub Actions�
 git clone https://github.com/openmaptiles/openmaptiles.git
 cd openmaptiles
 # Build the imposm mapping, the tm2source project and collect all SQL scripts
-make
-./quickstart.sh
+make download-???
 ```
 
 [osmtools](https://gitlab.com/osm-c-tools/osmctools) のインストール
