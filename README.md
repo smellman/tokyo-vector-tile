@@ -12,16 +12,24 @@ tokyo.mbtilesを差し替えてmasterブランチにpushするとGithub Actions�
 
 ### 事前準備
 
-必要なツールをインストール
+必要なツールをインストール(Ubuntuの例)
 
 ```
-sudo apt install bc make osmctools wget git vim
+sudo apt install bc make osmctools wget git vim docker.io
 ```
 
 `osmctools`が無い場合は以下の方法で`osmconvert`コマンドを取得する
 
 ```
 wget -O - http://m.m.i24.cc/osmconvert.c | cc -x c - -lz -O3 -o osmconvert
+```
+
+Ubuntuでは`docker-compose`は別途インストールを行う。またDockerの実行権限を付与する。
+
+```
+sudo curl -L https://github.com/docker/compose/releases/download/1.17.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo usermod -aG docker $USER
 ```
 
 [openmaptiles](https://github.com/openmaptiles/openmaptiles/blob/master/README.md) のインストールと設定
