@@ -43,13 +43,10 @@ vim .env # set QUICKSTART_MAX_ZOOM=14
 
 ### Tokyo regionの抽出と出力範囲の調整
 
-関東領域に対して`quickstart.sh`を実行してインポートが始まったら強制終了(Ctrl-C)
+関東をダウンロード
 
 ```
-# Run quickstart.sh with kanto region
-./quickstart.sh kanto
-# Stop
-<Ctrl+C>
+make download-geofabrik "area=kanto"
 ```
 
 `osmconvert`コマンドと`Tokyo.poly`を用いて`kanto.osm.pbf`から`tokyo.osm.pbf`を抽出する
@@ -92,7 +89,6 @@ docker-compose down -v
 - `./quickstart.sh` は引数にある範囲の`{region}.osm.pbf`があるかをチェックします。
 - `./quickstart.sh` の引数なしで実行するとアルバニアの範囲がダウンロードされてしまうので注意すること。
 - `kanto.osm.pbf`が存在してる段階で`./quickstart.sh kanto`を実行しても新しいファイルはダウンロードされないので新しく作る場合は `data` ディレクトリごと削除するのがおすすめです。
-- Ctrl+Cで強制終了しなくても`./quickstart.sh kanto`の実行が終わってから作業しても同じファイルが得られますが、かなり長い処理になるので強制終了することをおすすめします。`quickstart.sh`自体をいじって`exit(0)`を発行させるという手もありますが、修正が二度手間になるので注意。
 
 ## 範囲
 
