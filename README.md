@@ -94,3 +94,7 @@ docker-compose down -v
 
 [tokyo.geojson](tokyo.geojson) または [Tokyo.poly](Tokyo.poly) を参照。
 
+## Copyright
+
+- [© OpenMapTiles](https://www.openmaptiles.org/)
+- [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright)
