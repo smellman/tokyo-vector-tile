@@ -2,6 +2,8 @@
 
 東京都を含む範囲のタイルを配信します。
 
+このレポジトリは[東京都新型コロナウイルス感染症対策サイト](https://stopcovid19.metro.tokyo.lg.jp/)([github](https://github.com/tokyo-metropolitan-gov/covid19))を支援するために作成しました。
+
 ## 地図のアップデート
 
 `tokyo.mbtiles.a*`を差し替えてmasterブランチにpushするとGithub Actionsで自動的に公開されます。
